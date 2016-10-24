@@ -48,31 +48,6 @@ export default class Scene {
     return new Point2D(x, y);
   }
 
-  makeEdge(edge) {
-    let vector = new Vector(new Point3D(edge.a.x, edge.a.y, edge.a.z), new Point3D(edge.b.x, edge.b.y, edge.b.z));
-
-    if (this.isOutOfCamera(edge.a)) {
-      vector.a = this.clipPoint3D(edge.b, edge.a);
-    }
-
-    if (this.isOutOfCamera(edge.b)) {
-      vector.b = this.clipPoint3D(edge.a, edge.b);
-    }
-
-    return vector;
-  }
-
-  clipPoint3D(point1, point2) {
-    let point = new Point3D(0, 0, 1);
-    let depth = Math.abs(point1.z) + Math.abs(point2.z);
-    let ratio = (point1.z + 1.0) / depth;
-
-    point.x = (point1.x + point2.x) * ratio;
-    point.y = (point1.y + point2.y) * ratio;
-
-    return point;
-  }
-
   makeProjection() {
     let vectors2D = [];
 
@@ -81,9 +56,7 @@ export default class Scene {
         return;
       }
 
-      let newVector = this.makeEdge(v3d);
-
-      vectors2D.push(new Vector(this.pointTo2D(newVector.a), this.pointTo2D(newVector.b)));
+      vectors2D.push(new Vector(this.pointTo2D(v3d.a), this.pointTo2D(v3d.b)));
     })
 
     return vectors2D;
