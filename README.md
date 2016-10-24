@@ -19,7 +19,7 @@ Project for university. Written in JavaScript using Canvas.
 ## How to run
 
 * Clone repository
-* Run `npm install`
+* Run `npm install` and `webpack`
 * Open `example/index.html` in the web browser
 
 ## Copyright
