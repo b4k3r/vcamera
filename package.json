@@ -1,12 +1,12 @@
 {
-  "name": "camera3d",
+  "name": "vcamera",
   "version": "1.0.0",
-  "description": "",
+  "description": "Virtual Camera",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Marcin Prokop",
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.17.0",
