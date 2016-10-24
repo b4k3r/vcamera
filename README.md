@@ -2,7 +2,7 @@
 
 Project for university. Written in JavaScript using Canvas.
 
-## Keybindigs
+## Key bindings
 
 `w` `a` `s` `d` - move up/left/down/right
 
