@@ -8,7 +8,7 @@ export default class Controller {
   }
 
   run() {
-    window.requestAnimationFrame(this.scene.draw);
+    window.requestAnimationFrame(this.scene.draw.bind(this.scene));
 
     document.addEventListener('keydown', (event) => {
       const keyName = event.key;
@@ -68,6 +68,8 @@ export default class Controller {
       if (keyName === '-') {
         this.scene.zoomOut();
       }
+
+      window.requestAnimationFrame(this.scene.draw.bind(this.scene));
     }, false);
   }
 }
