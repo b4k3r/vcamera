@@ -3,7 +3,7 @@ import math from 'mathjs'
 export default class Rotation {
   constructor(vectors, direction) {
     this.vectors = vectors;
-    this.angle = direction * Math.PI / 90
+    this.angle   = direction * Math.PI / 90
   }
 
   OX_ROTATION_MATRIX() {
@@ -33,43 +33,16 @@ export default class Rotation {
     ]
   }
 
-  rotateOX() {
-    this.vectors.forEach((v3d) => {
-      let matrixA = v3d.a.toMatrix();
-      let matrixB = v3d.b.toMatrix();
+  rotate(coordinate) {
+    this.vectors.forEach((vector) => {
+      let matrixA = vector.a.toMatrix();
+      let matrixB = vector.b.toMatrix();
 
-      let resultA = math.multiply(this.OX_ROTATION_MATRIX(), matrixA);
-      let resultB = math.multiply(this.OX_ROTATION_MATRIX(), matrixB);
+      let resultA = math.multiply(this[coordinate + '_ROTATION_MATRIX'](), matrixA);
+      let resultB = math.multiply(this[coordinate + '_ROTATION_MATRIX'](), matrixB);
 
-      v3d.a.updateFromMatrix(resultA);
-      v3d.b.updateFromMatrix(resultB);
-    })
-  }
-
-  rotateOY() {
-    this.vectors.forEach((v3d) => {
-      let matrixA = v3d.a.toMatrix();
-      let matrixB = v3d.b.toMatrix();
-
-      let resultA = math.multiply(this.OY_ROTATION_MATRIX(), matrixA);
-      let resultB = math.multiply(this.OY_ROTATION_MATRIX(), matrixB);
-
-      v3d.a.updateFromMatrix(resultA);
-      v3d.b.updateFromMatrix(resultB);
-    })
-  }
-
-  rotateOZ() {
-    this.vectors.forEach((v3d) => {
-      let matrixA = v3d.a.toMatrix();
-      let matrixB = v3d.b.toMatrix();
-
-      let resultA = math.multiply(this.OZ_ROTATION_MATRIX(), matrixA);
-      let resultB = math.multiply(this.OZ_ROTATION_MATRIX(), matrixB);
-
-
-      v3d.a.updateFromMatrix(resultA);
-      v3d.b.updateFromMatrix(resultB);
-    })
+      vector.a.updateFromMatrix(resultA);
+      vector.b.updateFromMatrix(resultB);
+    });
   }
 }

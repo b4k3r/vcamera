@@ -1,13 +1,21 @@
 import Point2D from './Point2D';
 import Point3D from './Point3D';
 import Vector from './Vector';
+import Polygon from './Polygon';
+import PaintersAlgorithm from './PaintersAlgorithm'
 
 export default class Scene {
   constructor(canvasId, figures) {
-    this.c        = document.getElementById(canvasId);
-    this.ctx      = this.c.getContext("2d");
-    this._vectors = this.setVectors(figures);
-    this.vpd     = 200;
+    this.c         = document.getElementById(canvasId);
+    this.ctx       = this.c.getContext("2d");
+    this.vpd       = 200;
+
+    this.setPolygons(figures);
+    this.setVectors();
+  }
+
+  get polygons() {
+    return this._polygons;
   }
 
   get vectors() {
@@ -27,18 +35,16 @@ export default class Scene {
     this.vpd += 5;
   }
 
-  setVectors(figures) {
-    let vectors = [];
+  setPolygons(figures) {
+    this._polygons = figures.reduce((polygons, figure) => {
+      return polygons.concat(figure.polygons);
+    }, []);
+  }
 
-    figures.forEach((figure) => {
-      vectors = vectors.concat(figure.vectors);
-    })
-
-    // Two lines :)
-    vectors = vectors.concat([new Vector(new Point3D(15, -20, 50), new Point3D(15, -20, 75))]);
-    vectors = vectors.concat([new Vector(new Point3D(-15, -20, 50), new Point3D(-15, -20, 75))]);
-
-    return vectors;
+  setVectors() {
+   this._vectors = this.polygons.reduce((vectors, polygon) => {
+      return vectors.concat(polygon.vectors);
+    }, []);
   }
 
   pointTo2D(point) {
@@ -49,34 +55,53 @@ export default class Scene {
   }
 
   makeProjection() {
-    let vectors2D = [];
+    let polygons = [];
 
-    this._vectors.forEach((v3d) => {
-      if (this.isOutOfCamera(v3d.a) || this.isOutOfCamera(v3d.b)) {
-        return;
-      }
+    this.polygons.forEach((polygon) => {
+      let vectors2D = [];
 
-      vectors2D.push(new Vector(this.pointTo2D(v3d.a), this.pointTo2D(v3d.b)));
-    })
+      polygon.vectors.forEach((v3d) => {
+        if (this.isOutOfCamera(v3d.a) || this.isOutOfCamera(v3d.b)) {
+          return;
+        }
 
-    return vectors2D;
+        vectors2D.push(new Vector(this.pointTo2D(v3d.a), this.pointTo2D(v3d.b)));
+      });
+
+      polygons.push(new Polygon(vectors2D, polygon.color));
+    });
+
+    return polygons;
   }
 
   isOutOfCamera(point) {
     return point.z <= 0;
   }
 
+  runPaintersAlgorithm() {
+    this._polygons.sort(PaintersAlgorithm.compare);
+  }
+
   draw() {
-    let vectors = this.makeProjection();
+    this.runPaintersAlgorithm();
+    let polygons = this.makeProjection();
 
     this.ctx.clearRect(0, 0, this.c.width, this.c.height);
 
-    vectors.forEach((vector) => {
+    polygons.forEach((polygon) => {
+      let [first, ...tail] = polygon.points;
+      if (!first) return;
+
+      this.ctx.fillStyle = polygon.color;
       this.ctx.beginPath();
-      this.ctx.moveTo(this.c.width / 2 + vector.a.x, this.c.height / 2 - vector.a.y);
-      this.ctx.lineTo(this.c.width / 2 + vector.b.x, this.c.height / 2 - vector.b.y);
+
+      this.ctx.moveTo(this.c.width / 2 + first.x, this.c.height / 2 - first.y);
+      tail.forEach((tail) => {
+        this.ctx.lineTo(this.c.width / 2 + tail.x, this.c.height / 2 - tail.y);
+      });
+
       this.ctx.closePath();
-      this.ctx.stroke();
+      this.ctx.fill();
     })
   }
 }

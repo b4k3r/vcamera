@@ -3,7 +3,7 @@ import math from 'mathjs'
 export default class Translation {
   constructor(vectors) {
     this.vectors = vectors;
-    this.step = 0.5;
+    this.step = 2;
   }
 
   moveUp() {

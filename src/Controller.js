@@ -4,7 +4,6 @@ import Translation from './Translation';
 export default class Controller {
   constructor(scene) {
     this.scene = scene;
-    this.vectors = scene.vectors;
   }
 
   run() {
@@ -38,27 +37,27 @@ export default class Controller {
       }
 
       if (keyName === 'ArrowLeft') {
-        new Rotation(this.vectors, -1).rotateOX();
+        new Rotation(this.scene.vectors, -1).rotate('OX');
       }
 
       if (keyName === 'ArrowRight') {
-        new Rotation(this.vectors, 1).rotateOX();
+        new Rotation(this.scene.vectors, 1).rotate('OX');
       }
 
       if (keyName === 'ArrowUp') {
-        new Rotation(this.vectors, 1).rotateOY();
+        new Rotation(this.scene.vectors, 1).rotate('OY');
       }
 
       if (keyName === 'ArrowDown') {
-        new Rotation(this.vectors, -1).rotateOY();
+        new Rotation(this.scene.vectors, -1).rotate('OY');
       }
 
       if (keyName === 'PageUp') {
-        new Rotation(this.vectors, 1).rotateOZ();
+        new Rotation(this.scene.vectors, 1).rotate('OZ');
       }
 
       if (keyName === 'PageDown') {
-        new Rotation(this.vectors, -1).rotateOZ();
+        new Rotation(this.scene.vectors, -1).rotate('OZ');
       }
 
       if (keyName === '=') {

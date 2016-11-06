@@ -1,6 +1,6 @@
 # Virtual Camera
 
-Project for university. Written in JavaScript using Canvas.
+Project for university. Written in JavaScript using Canvas. It uses Painter's Algorithm.
 
 ## Key bindings
 
