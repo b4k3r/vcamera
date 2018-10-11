@@ -1,16 +1,19 @@
+var path = require('path');
+
 module.exports = {
-    entry: './src/app.js',
+    entry: './src/app',
     output: {
-        path: './bin',
+        path: path.resolve(__dirname, 'dist'),
         filename: 'camera3d.js'
     },
+    resolve: {
+        extensions: ['.ts', '.ts', '.js', '.json']
+    },
     module: {
-        loaders: [
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                loader: 'babel-loader'
-            }
-        ]
+        rules: [{
+            test: /\.(ts)|(js)$/,
+            exclude: /node_modules/,
+            loader: 'babel-loader',
+        }],
     }
-}
+};

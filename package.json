@@ -1,18 +1,30 @@
 {
   "name": "vcamera",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Virtual Camera",
-  "main": "index.js",
+  "main": "dist/camera3d.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "npm run type-check -- --watch",
+    "build": "npm run build:types && npm run build:js",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:js": "babel src --out-dir lib --extensions \".ts,.tsx\" --source-maps inline",
+    "bundle": "webpack"
   },
   "author": "Marcin Prokop",
   "license": "MIT",
   "devDependencies": {
-    "babel-core": "^6.17.0",
-    "babel-loader": "^6.2.5",
-    "babel-preset-es2015": "^6.16.0",
-    "webpack": "^1.13.2"
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-typescript": "^7.0.0",
+    "@types/webpack": "^4.4.14",
+    "babel-loader": "^8.0.0",
+    "typescript": "^3.0.1",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.2"
   },
   "dependencies": {
     "mathjs": "^3.6.0"
