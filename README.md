@@ -2,6 +2,9 @@
 
 Project for university. Written in JavaScript using Canvas. It uses Painter's Algorithm.
 
+![image](https://user-images.githubusercontent.com/666727/166897088-c61a946b-6677-4404-b9f8-7799d7ea4788.png)
+
+
 ## Key bindings
 
 `w` `a` `s` `d` - move up/left/down/right
